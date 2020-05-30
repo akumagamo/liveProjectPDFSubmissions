@@ -8,8 +8,6 @@ from collections import OrderedDict
 FORMAT_ONE_IDENTITIER = 'ALBARAN Nº'
 FORMAT_TWO_IDENTITIER = 'TALLER'
 
-config = configparser.ConfigParser(delimiters= ('=','|'), dict_type= OrderedDict)
-    
 def getfiles(folder):
   '''Return all files in passed folder and subfolders.'''
 
@@ -18,9 +16,11 @@ def getfiles(folder):
 def readini(filename):
   '''Reads the ini-files values and returns a Ordered dictionary.'''
 
+  config = configparser.ConfigParser(delimiters= ('=','|'), dict_type= OrderedDict , default_section="[DEFAULT]")
   with open(filename) as file:
     lines = ("[DEFAULT]\n" + file.read())
-    return config.read_string(lines)
+    config.read_string(lines)
+    return config
 
 def getformfields(pdf, tree=None, retval=None, fileobj=None):
     ''' Returns PDF fields found with PyPDF2 getFields. '''
@@ -34,32 +34,50 @@ def getfields(filename):
     pdf = PdfFileReader(file)
     return getformfields(pdf)
 
+def filterFunction(value):
+  return lambda entry: (entry if entry else '').lower().find(value.lower()) != -1 
+
 def filter(entries, testfunction):
   '''Finds the index of a entry in a list, where the return function returns True.'''
 
   return next(idx for idx, entry in enumerate(entries) if testfunction(entry))   
 
+
 def gettextfields(iniFile1, iniFile2, filename):
     '''Read the Needed Text-fields out of PDF depending on format'''
-    
+
+    textFields = {}
     with pdfplumber.open(filename) as pdf:
       firstPage = pdf.pages[0]
 
-      # TODO: refactor to only extract once the text
       firstPageContent = firstPage.extract_text()
+      # TODO: refactor to only extract once the text
+      firstPageTableContent = firstPage.extract_tables()
 
       if firstPageContent.find(FORMAT_ONE_IDENTITIER) != -1:
-        firstPageTableContent = firstPage.extract_tables()[0]
-        columnIdx = filter(firstPageTableContent[0], lambda item: (item if item else '').find('ALBARAN Nº') != -1 ) 
-        print(columnIdx)
+        firstPageTableContent = firstPageTableContent[0]
+
+        for key, value in iniFile1["DEFAULT"].items():
+          if len(value) > 1:
+            index = filter(firstPageTableContent[0], filterFunction(value))
+            textFields[key] = firstPageTableContent[1][index]
+            
         print("FORMAT 1")
       elif firstPageContent.find(FORMAT_TWO_IDENTITIER) != -1:
+        firstPageTableContent = firstPageTableContent[1]
+
+        # TODO: refactor duplication
+        for key, value in iniFile2["DEFAULT"].items():
+          if len(value) > 1:
+            index = filter(firstPageTableContent[0], filterFunction(value))
+            if index > -1 : 
+              textFields[key] = firstPageTableContent[0][index].split('\n')[1]
 
         print("FORMAT 2")
       else:
         raise TypeError("PDF DN Format not recognised.")
 
-    print(firstPageContent)
+    return textFields
 
 def execute():
   '''starts the pdf parsing and field grabbing.'''
@@ -73,7 +91,7 @@ def execute():
       
       iniFile1 = readini(ini1FileName)
       iniFile2 = readini(ini2FileName)
-      
+   
       files = getfiles(filesFolder)
       for file in files:
         print(getfields(file))
