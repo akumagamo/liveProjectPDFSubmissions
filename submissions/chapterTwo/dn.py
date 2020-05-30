@@ -42,7 +42,6 @@ def filter(entries, testfunction):
 
   return next(idx for idx, entry in enumerate(entries) if testfunction(entry))   
 
-
 def gettextfields(iniFile1, iniFile2, filename):
     '''Read the Needed Text-fields out of PDF depending on format'''
 
@@ -60,9 +59,9 @@ def gettextfields(iniFile1, iniFile2, filename):
         for key, value in iniFile1["DEFAULT"].items():
           if len(value) > 1:
             index = filter(firstPageTableContent[0], filterFunction(value))
-            textFields[key] = firstPageTableContent[1][index]
-            
-        print("FORMAT 1")
+            if index > -1 :
+              textFields[key] = firstPageTableContent[1][index]
+
       elif firstPageContent.find(FORMAT_TWO_IDENTITIER) != -1:
         firstPageTableContent = firstPageTableContent[1]
 
@@ -73,7 +72,6 @@ def gettextfields(iniFile1, iniFile2, filename):
             if index > -1 : 
               textFields[key] = firstPageTableContent[0][index].split('\n')[1]
 
-        print("FORMAT 2")
       else:
         raise TypeError("PDF DN Format not recognised.")
 
@@ -94,7 +92,10 @@ def execute():
    
       files = getfiles(filesFolder)
       for file in files:
+        print('\nFile: ', file)
+        print('\nFields:')
         print(getfields(file))
+        print('\nTextfields:')
         print(gettextfields(iniFile1, iniFile2, file))
 
   except BaseException as msg:

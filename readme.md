@@ -1,6 +1,6 @@
 # **liveProject (MEAP):** Delivery Notes Data Entry Automation With Python
-## Versionnumber 1.0.0 (2020-05-30)
-(***Documentation last update 2020-05-30 9:45***)  
+## Versionnumber 1.5.0 (2020-05-30)
+(***Documentation last update 2020-05-30 19:00***)  
 
 Here the task for each chapter will listed and optional Notes / Information
 
@@ -25,3 +25,10 @@ _**Disclaimer:** in my case I get a third file `.gitignore` is returned, but to 
 
 ### Tasks
 _go to portal for the tasks_
+
+### Notes
+* added extra line in format2.ini 'DeliveryNote=Delivery'
+* Currently output only as print-statements
+
+### Output
+![Screenshot of CommandLine after execution](./readme/screenshot_0001.png)
