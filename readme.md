@@ -32,3 +32,19 @@ _go to portal for the tasks_
 
 ### Output
 ![Screenshot of CommandLine after execution](./readme/screenshot_0001.png)
+
+## ChapterThree
+
+After flying over the result docx, I understund the desired output, so the first step is tweaking my code to output the desired output style.
+
+### Tasks
+_go to portal for the tasks_
+
+### Notes
+* The whole field-get Section is wierd, and I should review the learning material to get this part right. But for now the sceleton I wrote seems to do the trick.
+* The onliner Field read _"Hack"_ removes entries without a value set. This part could/should be revisited since default value and other edge-cases aren't looked at, but for now this should do.
+* Minor "problem" with the casesensitivity will be fixed with an neat workaround. Should not even a problem in a production code, since nameing convetions in HTML/CSS/Javascript should prevent same id, with differnt camel/pascal-casing. _(lets be honest, in production I would probably not allow should a "move")_
+
+
+
+### Output
