@@ -1,5 +1,7 @@
 venv/
+venv_sf/
 results/
 **/__pycache__/
 used_commands.txt
 readme_private.md
+test.py
