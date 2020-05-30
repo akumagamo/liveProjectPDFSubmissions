@@ -1,6 +1,6 @@
 # **liveProject (MEAP):** Delivery Notes Data Entry Automation With Python
-## Versionnumber 1.5.0 (2020-05-30)
-(***Documentation last update 2020-05-30 19:00***)  
+## Versionnumber 1.9.0 (2020-05-30)
+(***Documentation last update 2020-05-30 22:45 CET***)  
 
 Here the task for each chapter will listed and optional Notes / Information
 
@@ -44,7 +44,16 @@ _go to portal for the tasks_
 * The whole field-get Section is wierd, and I should review the learning material to get this part right. But for now the sceleton I wrote seems to do the trick.
 * The onliner Field read _"Hack"_ removes entries without a value set. This part could/should be revisited since default value and other edge-cases aren't looked at, but for now this should do.
 * Minor "problem" with the casesensitivity will be fixed with an neat workaround. Should not even a problem in a production code, since nameing convetions in HTML/CSS/Javascript should prevent same id, with differnt camel/pascal-casing. _(lets be honest, in production I would probably not allow should a "move")_
+* Why Vanilla Javascript and not jQuery, if it is used in the form? and abstracts away the _"heavy"_ lifting _(dropdown-list and so on)_
+
+### Output  
+#### Form for PDF Format 1
+![Screenshot of CommandLine after execution](./readme/screenshot_0003.png)  
+
+#### Form for PDF Format 2
+![Screenshot of CommandLine after execution](./readme/screenshot_0002.png)  
 
 
-
-### Output
+## Summary / Open Tasks
+* I should refactor / go over the code once more
+* Material and Solutions should be reworked, to optimzie 

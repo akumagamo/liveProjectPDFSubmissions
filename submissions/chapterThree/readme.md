@@ -3,5 +3,13 @@
 Some more details about the submission can be found in the readme of the repository.
 Here is the link [Base Repository Readme](../../readme.md)
 
-## Output
-![Screenshot of CommandLine after execution](../../readme/screenshot_0002.png)
+## Output  
+
+_Since jQuery is used in the Form, to keep the script short it is used._
+
+### Form for PDF Format 1
+![Screenshot of Browser after Javascript execution Format 1](../../readme/screenshot_0003.png)
+
+### Form for PDF Format 2
+![Screenshot of Browser after Javascript execution Format 2](../../readme/screenshot_0002.png)
+

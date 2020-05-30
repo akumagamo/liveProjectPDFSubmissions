@@ -81,12 +81,24 @@ def gettextfields(iniFile1, iniFile2, filename):
 
     return textFields
 
+def createScriptForFile(filename, fields):
+  scriptCommandLines = []
+
+  for key, value in fields.items():
+    scriptCommandLines.append(f'$("[id=\'{key}\' i]").val("{value}");')
+
+  with open(filename, "w") as scriptFile:
+    scriptFile.write("\n".join(scriptCommandLines))
+
+  print("\n".join(scriptCommandLines))
+
 def execute():
   '''starts the pdf parsing and field grabbing.'''
 
   try: 
       filesFolder = os.path.join(os.getcwd(), 'formats')
       baseFolder = os.path.dirname(os.path.realpath(__file__))
+      scriptsFolder = os.path.join(baseFolder, 'scripts')
 
       ini1FileName = os.path.join(baseFolder, 'format1.ini')
       ini2FileName = os.path.join(baseFolder, 'format2.ini')
@@ -96,8 +108,14 @@ def execute():
    
       files = getfiles(filesFolder)
       for file in files:
-        print(getfields(file))
-        print(gettextfields(iniFile1, iniFile2, file))
+        scriptFilename = os.path.join(scriptsFolder, file.split(os.sep)[-1].replace('.pdf', '.js'))
+        #print(getfields(file))
+        #print(gettextfields(iniFile1, iniFile2, file))
+        
+        fields = getfields(file)
+        fields.update(gettextfields(iniFile1, iniFile2, file))
+
+        createScriptForFile(scriptFilename, fields)
 
   except BaseException as msg:
       print('Error occured: ' + str(msg))
